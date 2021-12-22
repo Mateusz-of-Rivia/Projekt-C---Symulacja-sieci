@@ -5,21 +5,27 @@
 #ifndef UNTITLED5_PACKAGE_HPP
 #define UNTITLED5_PACKAGE_HPP
 
+#include <set>
 #include "types.hpp"
 
 class Package{
 public:
-    ElementID_t findID();
-    Package() : ElementID(findID()) {};
-    explicit Package(ElementID_t id) : ElementID(id) {}
-    Package(Package&& aPackage)...???   //TODO Zrobić ten konstruktor
-    ElementID_t get_id(){return ElementID;}; //TODO Dorobić metoda operator=
-    ~Package()= default;
+    Package() : elementId(giveID()),isOwner(true) {};
+    explicit Package(ElementID_t id) : elementId(id), isOwner(true) {addID(id);};
+    Package(Package&& aPackage)  noexcept : elementId(std::move(aPackage.elementId)), isOwner(true){aPackage.isOwner = false; };
+    Package(Package& aPackage)  noexcept : elementId(aPackage.elementId), isOwner(true){aPackage.isOwner = false;};
+    [[nodiscard]] ElementID_t get_id() const{return elementId;};
+    Package& operator=(Package&& aPackage) = default;
+    ~Package(){if (isOwner){freeID(elementId);} };
 
 private:
-    ElementID_t ElementID;
-    inline static set<ElementID> assigned_IDs;
-    inline static set<ElementID> freed_IDs;     //Roboczo założyłem, że freeds_IDs jest posortowana rosnąco.
+    static void freeID(ElementID_t id);
+    static ElementID_t giveID();
+    static void addID(ElementID_t id);
+    ElementID_t elementId;
+    bool isOwner;
+    inline static std::set<ElementID_t> assigned_IDs;
+    inline static std::set<ElementID_t> freed_IDs;
 
 };
 #endif //UNTITLED5_PACKAGE_HPP

@@ -5,18 +5,37 @@
 
 
 void PackageQueue::push(Package&& aPackage) {
-    switch (QueueType) {
-        case PackageQueueType::LIFO:
-            queue.push_back(aPackage);
-            break;
-        case PackageQueueType::FIFO:
-            queue.push_front(aPackage);
-            break;
-    }
+    queue.emplace_back(std::move(aPackage));
 }
 
 Package PackageQueue::pop() {
-    Package result = queue[-1];
-    queue.pop_back();
-    return result;
+
+    /*
+    switch (queueType) {
+        case PackageQueueType::LIFO:
+            Package& output = queue.back();
+            queue.pop_back();
+            return output;
+            break;
+        case PackageQueueType::FIFO:
+            Package& output2 = queue.front();
+            queue.pop_front();
+            return output2;
+            break;
+        default:
+            return Package();
+    }*/
+
+    if (queueType == PackageQueueType::LIFO){
+        Package output = queue.back();
+        queue.pop_back();
+        return output;
+    }
+    else{
+        Package output2 = queue.front();
+        queue.pop_front();
+        return output2;
+    }
+
+
 }

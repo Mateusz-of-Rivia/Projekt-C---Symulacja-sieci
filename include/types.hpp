@@ -6,6 +6,5 @@
 #define UNTITLED5_TYPES_HPP
 
 using ElementID_t = int;
-using size_t = int;
 
 #endif //UNTITLED5_TYPES_HPP
