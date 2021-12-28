@@ -4,7 +4,10 @@
 #include "src/package.cpp"
 #include "include/storage_types.hpp"
 #include "src/storage_types.cpp"
-
+#include "include/nodes.hpp"
+#include "src/nodes.cpp"
+#include "include/helpers.hpp"
+#include "src/helpers.cpp"
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
@@ -19,5 +22,6 @@ int main() {
     std::cout << p1.get_id() << std::endl << std::flush;
     Package p2 = zzz.pop();
     std::cout << p2.get_id() << std::endl << std::flush;
+    ReceiverPreferences ugagu = ReceiverPreferences();
     return 0;
 }
