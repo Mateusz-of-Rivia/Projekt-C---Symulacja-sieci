@@ -31,14 +31,14 @@ class ReceiverPreferences{
 private:
     preferences_t preferences_;
     std::function<double()> function_;
-
-public:
-    ReceiverPreferences(std::function<double()> function, std::map<IPackageReceiver*, double> map) : function_(std::move(function)), preferences_(std::move(map)){};
     double get_propability();
     void change_preferences();
+public:
+    ReceiverPreferences(std::function<double()> function) : function_(std::move(function)){};
+    IPackageReceiver* choose_receiver();
     void add_receiver(IPackageReceiver* receiver);
     void remove_receiver(IPackageReceiver* receiver);
-    choose_receiver
+    preferences_t& get_preferences(){return preferences_;};
 };
 
 
