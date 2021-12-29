@@ -42,4 +42,5 @@ IPackageReceiver * ReceiverPreferences::choose_receiver() {
         }
         count1 = count2;
     }
+    return nullptr;
 }

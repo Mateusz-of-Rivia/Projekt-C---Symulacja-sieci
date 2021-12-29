@@ -7,17 +7,17 @@
 #include <list>
 #include <utility>
 #include "package.hpp"
-using const_iterator = std::list<Package>::const_iterator;
 
 
 class IPackageStockpile {
 public:
     virtual void push(Package&&) = 0;
+    using const_iterator = std::list<Package>::const_iterator;
 
-    virtual typename std::list<Package>::const_iterator cbegin()const = 0;
-    virtual typename std::list<Package>::const_iterator begin()const = 0;
-    virtual typename std::list<Package>::const_iterator cend()const = 0;
-    virtual typename std::list<Package>::const_iterator end()const = 0;
+    virtual typename IPackageStockpile::const_iterator cbegin()const = 0;
+    virtual typename IPackageStockpile::const_iterator begin()const = 0;
+    virtual typename IPackageStockpile::const_iterator cend()const = 0;
+    virtual typename IPackageStockpile::const_iterator end()const = 0;
 
     virtual size_t size() = 0;
     virtual bool empty() = 0;
@@ -41,10 +41,10 @@ class PackageQueue : public IPackageQueue{
 public:
     explicit PackageQueue(PackageQueueType type, std::list<Package> list = {}) : queue(std::move(list)), queueType(type){};
 
-    typename std::list<Package>::const_iterator cbegin()const override{return queue.cbegin();};
-    typename std::list<Package>::const_iterator begin()const override{return queue.cbegin();};
-    typename std::list<Package>::const_iterator cend()const override{return queue.cend();};
-    typename std::list<Package>::const_iterator end()const override{return queue.cend();};
+    typename IPackageStockpile::const_iterator cbegin()const override{return queue.cbegin();};
+    typename IPackageStockpile::const_iterator begin()const override{return queue.cbegin();};
+    typename IPackageStockpile::const_iterator cend()const override{return queue.cend();};
+    typename IPackageStockpile::const_iterator end()const override{return queue.cend();};
 
     size_t size() override{return queue.size();};
     bool empty() override{return queue.empty();};
