@@ -5,7 +5,7 @@
 #ifndef MAIN_CPP_NODES_HPP
 #define MAIN_CPP_NODES_HPP
 
-
+#include <memory>
 #include <functional>
 #include <utility>
 #include <map>
@@ -52,6 +52,49 @@ private:
     double get_propability();
     void change_preferences();
 };
+
+/////////////////// Odzielenie działającej części od nie dizłającej xD /////////////////////////////
+
+//////// Piotr Stosik ///////
+class PackageSender {
+public:
+    using receiver_preferences_: ReceiverPreferences;
+    PackageSender(PackageSender&&){}
+    void send_package(void);
+    void get_sending_buffer(void) : std::optional<Package>& {query};
+protected:
+    void push_package(Package&&);
+};
+
+class Storehouse {
+public:
+    Storehouse(id: ElementID, d: std::unique_ptr<IPackageStockpile>;
+};
+
+////// Karol Strojny //////////
+class Worker : public PackageSender {
+public:
+    Worker(ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q){}
+    void do_work(Time t);
+    virtual TimeOffset get_processing_duration() = 0;
+    virtual Time get_package_processing_start_time() = 0;
+
+
+};
+
+class Ramp : public PackageSender {
+public:
+    ElementID_t id;
+    TimeOffset di;
+    Ramp(ElementID_t id, TimeOffset di){}
+    void deliver_goods(Time t);
+    virtual TimeOffset get_delivery_interval() = 0;
+    virtual ElementID_t get_id() = 0;
+};
+
+
+
+
 
 
 

@@ -44,3 +44,15 @@ IPackageReceiver * ReceiverPreferences::choose_receiver() {
     }
     return nullptr;
 }
+
+/////// Karol Strojny //////
+void Worker::do_work(Time t) {
+
+}
+void Ramp::deliver_goods(Time t){
+    if()
+}
+///// Piotr Stosik ///////
+void send_package(void) {}   //jaka definicja???
+void get_sending_buffer(void) : std::optional<Package>& {query} {}   //jaka definicja???
+//czy to wszystko?

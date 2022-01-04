@@ -6,5 +6,7 @@
 #define UNTITLED5_TYPES_HPP
 
 using ElementID_t = int;
+using Time = int;
+using TimeOffset = int;
 
 #endif //UNTITLED5_TYPES_HPP

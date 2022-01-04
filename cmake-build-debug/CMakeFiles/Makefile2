@@ -54,19 +54,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "E:\Clion\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "E:\Clion\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\turgo\CLionProjects\untitled5
+CMAKE_SOURCE_DIR = D:\studia\3_semestr\ZPO\sieci_projekt\Projekt-C---Symulacja-sieci
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\turgo\CLionProjects\untitled5\cmake-build-debug
+CMAKE_BINARY_DIR = D:\studia\3_semestr\ZPO\sieci_projekt\Projekt-C---Symulacja-sieci\cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -93,14 +93,14 @@ clean: CMakeFiles/untitled5.dir/clean
 CMakeFiles/untitled5.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\turgo\CLionProjects\untitled5\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target untitled5"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\studia\3_semestr\ZPO\sieci_projekt\Projekt-C---Symulacja-sieci\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target untitled5"
 .PHONY : CMakeFiles/untitled5.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/untitled5.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\turgo\CLionProjects\untitled5\cmake-build-debug\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\studia\3_semestr\ZPO\sieci_projekt\Projekt-C---Symulacja-sieci\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/untitled5.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\turgo\CLionProjects\untitled5\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\studia\3_semestr\ZPO\sieci_projekt\Projekt-C---Symulacja-sieci\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/untitled5.dir/rule
 
 # Convenience name for target.
