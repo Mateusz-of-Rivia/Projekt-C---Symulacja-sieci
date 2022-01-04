@@ -56,14 +56,17 @@ private:
 /////////////////// Odzielenie działającej części od nie dizłającej xD /////////////////////////////
 
 //////// Piotr Stosik ///////
-class PackageSender {
+class PackageSender : public ReceiverPreferences {
 public:
-    using receiver_preferences_: ReceiverPreferences;
-    PackageSender(PackageSender&&){}
-    void send_package(void);
-    void get_sending_buffer(void) : std::optional<Package>& {query};
+    ReceiverPreferences receiver_preferences_;
+
+    PackageSender(PackageSender&& packageSender) : receiver_preferences_(std::move(packageSender.receiver_preferences_)){};
+    void send_package(Package aPackage){bufor = std::move(aPackage);};        //TODO poprawić, zrobione roboczo
+    std::optional<Package>& get_sending_buffer(){return bufor;};
 protected:
     void push_package(Package&&);
+private:
+    std::optional<Package> bufor;
 };
 
 class Storehouse {
@@ -72,24 +75,32 @@ public:
 };
 
 ////// Karol Strojny //////////
-class Worker : public PackageSender {
+class Worker : public PackageSender,public IPackageReceiver {
 public:
-    Worker(ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q){}
+    //Worker(ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q){}
+    void receive_package(Package&& aPackage) override{queue.push(std::move(aPackage));};
     void do_work(Time t);
-    virtual TimeOffset get_processing_duration() = 0;
-    virtual Time get_package_processing_start_time() = 0;
-
+    TimeOffset get_processing_duration(){return pd;};
+    Time get_package_processing_start_time(){return };
+    ElementID_t get_id() override{return id;};
+private:
+    PackageQueue queue;
+    std::optional<Package> actual_package;
+    ElementID_t id;
+    TimeOffset pd;
 
 };
 
 class Ramp : public PackageSender {
 public:
+    Ramp(ElementID_t id, TimeOffset di): id(id),di(di){};
+    void deliver_goods(Time t);
+    TimeOffset get_delivery_interval(){return di;};
+    ElementID_t get_id(){return id;};
+
+private:
     ElementID_t id;
     TimeOffset di;
-    Ramp(ElementID_t id, TimeOffset di){}
-    void deliver_goods(Time t);
-    virtual TimeOffset get_delivery_interval() = 0;
-    virtual ElementID_t get_id() = 0;
 };
 
 

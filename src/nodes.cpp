@@ -47,12 +47,20 @@ IPackageReceiver * ReceiverPreferences::choose_receiver() {
 
 /////// Karol Strojny //////
 void Worker::do_work(Time t) {
+    if(not actual_package.has_value()){
+        if (not queue.empty()) {
+            actual_package = queue.pop();
+            get_package_processing_start_time()
+        }
+    }
 
 }
 void Ramp::deliver_goods(Time t){
-    if()
+    if(t % di == 0){
+        Package created_package = Package();
+        send_package(created_package);
+    }
 }
 ///// Piotr Stosik ///////
-void send_package(void) {}   //jaka definicja???
-void get_sending_buffer(void) : std::optional<Package>& {query} {}   //jaka definicja???
+void send_package() {}   //jaka definicja???
 //czy to wszystko?

@@ -13,6 +13,6 @@ int main() {
 
 
     ReceiverPreferences ugagu = ReceiverPreferences(probability_generator);
-    ugagu.add_receiver()
+    ugagu.add_receiver();
     return 0;
 }
