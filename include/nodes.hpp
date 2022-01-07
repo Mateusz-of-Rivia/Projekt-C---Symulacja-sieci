@@ -67,13 +67,25 @@ private:
 
 };
 
-class Storehouse {
+class Storehouse : public IPackageReceiver{
 public:
+    Storehouse(ElementID_t id, std::unique_ptr<IPackageStockpile> q) : queue(std::move(q)),id(id){};
+    void receive_package(Package&& aPackage) override{queue->push(std::move(aPackage));};
+    ElementID_t get_id() override{return id;};
+    NodesType get_type()override{return NodesType::Storehouse;};
+
+    typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
+    typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};
+    typename IPackageStockpile::const_iterator cend()const override{return queue->cend();};
+    typename IPackageStockpile::const_iterator end()const override{return queue->cend();};
+private:
+    std::unique_ptr<IPackageStockpile> queue;
+    ElementID_t id;
 };
 
 class Worker : public PackageSender, public IPackageReceiver {
 public:
-    Worker(ReceiverPreferences preferences, ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : PackageSender(std::move(preferences)), id(id), pd(pd), queue(q) {};
+    Worker(ReceiverPreferences preferences, ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : PackageSender(std::move(preferences)),queue(std::move(q)), id(id), pd(pd){};
     Worker(Worker&& worker): PackageSender(std::move(worker)){Worker(std::move(worker));};
     void receive_package(Package&& aPackage) override{queue->push(std::move(aPackage));};
     void do_work(Time t);
