@@ -7,4 +7,4 @@ set(SOURCE_FILES
         src/package.cpp
         src/storage_types.cpp
         )
-add_executable(untitled5 main.cpp)
+add_executable(untitled5 main.cpp src/factory.cpp)

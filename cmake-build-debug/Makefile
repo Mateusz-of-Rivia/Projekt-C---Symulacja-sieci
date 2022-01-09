@@ -169,6 +169,33 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/factory.obj: src/factory.cpp.obj
+
+.PHONY : src/factory.obj
+
+# target to build an object file
+src/factory.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/src/factory.cpp.obj
+.PHONY : src/factory.cpp.obj
+
+src/factory.i: src/factory.cpp.i
+
+.PHONY : src/factory.i
+
+# target to preprocess a source file
+src/factory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/src/factory.cpp.i
+.PHONY : src/factory.cpp.i
+
+src/factory.s: src/factory.cpp.s
+
+.PHONY : src/factory.s
+
+# target to generate assembly for a file
+src/factory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled5.dir\build.make CMakeFiles/untitled5.dir/src/factory.cpp.s
+.PHONY : src/factory.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -181,6 +208,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/factory.obj
+	@echo ... src/factory.i
+	@echo ... src/factory.s
 .PHONY : help
 
 

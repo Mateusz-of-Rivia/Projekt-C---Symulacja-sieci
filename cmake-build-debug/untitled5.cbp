@@ -87,6 +87,9 @@
 		<Unit filename="D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/main.cpp">
 			<Option target="untitled5"/>
 		</Unit>
+		<Unit filename="D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/src/factory.cpp">
+			<Option target="untitled5"/>
+		</Unit>
 		<Unit filename="D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

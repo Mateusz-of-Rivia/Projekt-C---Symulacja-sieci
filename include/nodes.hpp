@@ -16,12 +16,17 @@ enum class NodesType{
     Worker,
     Storehouse
 };
+enum class ReceiverType{ // nie jestem pewien czy to jest dobrze
+    Worker,
+    Storehouse
+};
 
 class IPackageReceiver{
 public:
     virtual ElementID_t get_id() = 0;
     virtual NodesType get_type() = 0;
     virtual void receive_package(Package&&) = 0;
+    virtual ReceiverType get_receiver_type() = 0; // implementacja tej metody będzie w klasie worker oraz storehouse bede wykorzystywał to do sprawdzenia spójności
 
     virtual typename IPackageStockpile::const_iterator cbegin()const = 0;
     virtual typename IPackageStockpile::const_iterator begin()const = 0;
@@ -73,6 +78,7 @@ public:
     void receive_package(Package&& aPackage) override{queue->push(std::move(aPackage));};
     ElementID_t get_id() override{return id;};
     NodesType get_type()override{return NodesType::Storehouse;};
+    ReceiverType get_receiver_type()override{return ReceiverType::Storehouse;}; // powyżej mówiona implementacja powinno zwracac odpowiednia etykięte jeszcze nie wiem co to dokładnie znaczy
 
     typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
     typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};
@@ -93,6 +99,7 @@ public:
     [[nodiscard]] Time get_package_processing_start_time() const{return package_processing_start_time;};
     ElementID_t get_id() override{return id;};
     NodesType get_type()override{return NodesType::Worker;};
+    ReceiverType get_receiver_type()override{return ReceiverType::Worker;}; // powyżej mówiona implementacja powinno zwracac odpowiednia etykięte jeszcze nie wiem co to dokładnie znaczy
 
     typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
     typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};

@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/untitled5.dir/main.cpp.obj"
+  "CMakeFiles/untitled5.dir/src/factory.cpp.obj"
   "libuntitled5.dll.a"
   "untitled5.exe"
   "untitled5.exe.manifest"
