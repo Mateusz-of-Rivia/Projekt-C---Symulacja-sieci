@@ -13,6 +13,10 @@ int main() {
 
 
     ReceiverPreferences ugagu = ReceiverPreferences(probability_generator);
-    ugagu.add_receiver();
+    Ramp r1 = Ramp(ugagu,1,2);
+    PackageQueue q = PackageQueue(PackageQueueType::LIFO);
+    //std::unique_ptr<IPackageQueue>qq(q);
+    //Worker w1 = Worker(ugagu,1,2,std::move(qq));
+    //ugagu.add_receiver(w1);
     return 0;
 }

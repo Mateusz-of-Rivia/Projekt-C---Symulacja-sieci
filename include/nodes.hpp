@@ -10,23 +10,26 @@
 #include <utility>
 #include <map>
 #include "storage_types.hpp"
+#include "helpers.hpp"
 
 enum class NodesType{
     Ramp,
     Worker,
     Storehouse
 };
-enum class ReceiverType{ // nie jestem pewien czy to jest dobrze
+
+enum class ReceiverType{
+    Storehouse,
     Worker,
-    Storehouse
+    Ramp
 };
 
 class IPackageReceiver{
 public:
-    virtual ElementID_t get_id() = 0;
+    virtual ElementID_t get_id()const = 0;
     virtual NodesType get_type() = 0;
     virtual void receive_package(Package&&) = 0;
-    virtual ReceiverType get_receiver_type() = 0; // implementacja tej metody będzie w klasie worker oraz storehouse bede wykorzystywał to do sprawdzenia spójności
+    [[nodiscard]] virtual ReceiverType get_receiver_type() const = 0;
 
     virtual typename IPackageStockpile::const_iterator cbegin()const = 0;
     virtual typename IPackageStockpile::const_iterator begin()const = 0;
@@ -49,7 +52,7 @@ public:
     IPackageReceiver* choose_receiver();
     void add_receiver(IPackageReceiver* receiver);
     void remove_receiver(IPackageReceiver* receiver);
-    preferences_t& get_preferences(){return preferences_;};
+    [[nodiscard]] const preferences_t& get_preferences()const{return preferences_;};
 
 private:
     preferences_t preferences_;
@@ -61,24 +64,25 @@ private:
 class PackageSender{
 public:
     PackageSender(ReceiverPreferences preferences) : receiver_preferences_(std::move(preferences)){};
-    PackageSender(PackageSender&& packageSender) : receiver_preferences_(std::move(packageSender.receiver_preferences_)){};
+    PackageSender() : receiver_preferences_(probability_generator) {}
+    PackageSender(PackageSender&& packageSender)=default;
     void send_package();
     std::optional<Package>& get_sending_buffer(){return buffer;};
+    ReceiverPreferences receiver_preferences_;
 protected:
     void push_package(Package&& aPackage){ buffer = std::move(aPackage);};
 private:
-    ReceiverPreferences receiver_preferences_;
     std::optional<Package> buffer;
 
 };
 
 class Storehouse : public IPackageReceiver{
 public:
-    Storehouse(ElementID_t id, std::unique_ptr<IPackageStockpile> q) : queue(std::move(q)),id(id){};
+    explicit Storehouse(ElementID_t id, std::unique_ptr<IPackageStockpile> d = std::make_unique<PackageQueue>(PackageQueue(PackageQueueType::FIFO))) : queue(std::move(d)), id(id) {}
     void receive_package(Package&& aPackage) override{queue->push(std::move(aPackage));};
-    ElementID_t get_id() override{return id;};
+    ElementID_t get_id()const override{return id;};
     NodesType get_type()override{return NodesType::Storehouse;};
-    ReceiverType get_receiver_type()override{return ReceiverType::Storehouse;}; // powyżej mówiona implementacja powinno zwracac odpowiednia etykięte jeszcze nie wiem co to dokładnie znaczy
+    [[nodiscard]] ReceiverType get_receiver_type() const override  { return ReceiverType::Storehouse; }
 
     typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
     typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};
@@ -91,20 +95,21 @@ private:
 
 class Worker : public PackageSender, public IPackageReceiver {
 public:
-    Worker(ReceiverPreferences preferences, ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : PackageSender(std::move(preferences)),queue(std::move(q)), id(id), pd(pd){};
+    Worker(ElementID_t id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : PackageSender(),queue(std::move(q)), id(id), pd(pd){};
     Worker(Worker&& worker): PackageSender(std::move(worker)){Worker(std::move(worker));};
+
     void receive_package(Package&& aPackage) override{queue->push(std::move(aPackage));};
     void do_work(Time t);
     [[nodiscard]] TimeOffset get_processing_duration() const{return pd;};
     [[nodiscard]] Time get_package_processing_start_time() const{return package_processing_start_time;};
-    ElementID_t get_id() override{return id;};
+    [[nodiscard]] ElementID_t get_id()const override{return id;};
     NodesType get_type()override{return NodesType::Worker;};
-    ReceiverType get_receiver_type()override{return ReceiverType::Worker;}; // powyżej mówiona implementacja powinno zwracac odpowiednia etykięte jeszcze nie wiem co to dokładnie znaczy
-
-    typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
-    typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};
-    typename IPackageStockpile::const_iterator cend()const override{return queue->cend();};
-    typename IPackageStockpile::const_iterator end()const override{return queue->cend();};
+    [[nodiscard]] ReceiverType get_receiver_type() const override { return ReceiverType::Worker; }
+    [[nodiscard]]  IPackageQueue* get_queue() const { return queue.get(); }
+    [[nodiscard]] typename IPackageStockpile::const_iterator cbegin()const override{return queue->cbegin();};
+    [[nodiscard]] typename IPackageStockpile::const_iterator begin()const override{return queue->cbegin();};
+    [[nodiscard]] typename IPackageStockpile::const_iterator cend()const override{return queue->cend();};
+    [[nodiscard]] typename IPackageStockpile::const_iterator end()const override{return queue->cend();};
 private:
     std::unique_ptr<IPackageQueue> queue;
     ElementID_t id;
@@ -115,11 +120,12 @@ private:
 
 class Ramp : public PackageSender {
 public:
-    Ramp(ReceiverPreferences preferences, ElementID_t id, TimeOffset di) : PackageSender(std::move(preferences)), id(id), di(di) {};
+    Ramp(ElementID_t id, TimeOffset di) : PackageSender(), id(id), di(di) {};
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval(){return di;};
-    ElementID_t get_id(){return id;};
+    [[nodiscard]] ElementID_t get_id()const{return id;};
     NodesType get_type(){return NodesType::Ramp;};
+    [[nodiscard]] static ReceiverType get_receiver_type()  { return ReceiverType::Ramp; }
 
 private:
     ElementID_t id;

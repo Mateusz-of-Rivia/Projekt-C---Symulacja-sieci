@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/main.cpp" "D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/cmake-build-debug/CMakeFiles/untitled5.dir/main.cpp.obj"
-  "D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/src/factory.cpp" "D:/studia/3_semestr/ZPO/sieci_projekt/Projekt-C---Symulacja-sieci/cmake-build-debug/CMakeFiles/untitled5.dir/src/factory.cpp.obj"
+  "C:/Users/turgo/CLionProjects/untitled5/main.cpp" "C:/Users/turgo/CLionProjects/untitled5/cmake-build-debug/CMakeFiles/untitled5.dir/main.cpp.obj"
+  "C:/Users/turgo/CLionProjects/untitled5/src/factory.cpp" "C:/Users/turgo/CLionProjects/untitled5/cmake-build-debug/CMakeFiles/untitled5.dir/src/factory.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
